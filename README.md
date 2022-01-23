@@ -18,10 +18,7 @@ cd ArchTitus
 ./archtitus.sh
 ```
 
-### System Description
-This is completely automated arch install of the KDE desktop environment on arch using all the packages I use on a daily basis.
-
-## Credits
+## Creditos
 
 - Idea y trabajo original de ChrisTitusTech (https://github.com/ChrisTitusTech/ArchTitus).
 - Original packages script was a post install cleanup script called ArchMatic located here: https://github.com/rickellis/ArchMatic
