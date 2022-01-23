@@ -15,7 +15,7 @@ Insertar el USB e iniciar el sistema desde el Disco Extraible. Acto seguido, eje
 pacman -Sy git
 git clone https://github.com/Luciano-Sparti/ArchTitus
 cd ArchTitus
-./archtitus.sh
+./iniciar-instalacion.sh
 ```
 
 ## Creditos
