@@ -1,27 +1,8 @@
 #!/usr/bin/env bash
-#-------------------------------------------------------------------------
-#   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-#  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-#  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-#  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-#  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-#  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
-#-------------------------------------------------------------------------
-SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-echo -ne "
--------------------------------------------------------------------------
-   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
--------------------------------------------------------------------------
-                    Automated Arch Linux Installer
--------------------------------------------------------------------------
 
-Setting up mirrors for optimal download
-"
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+echo -ne "Setting up mirrors for optimal download"
+
 source setup.conf
 iso=$(curl -4 ifconfig.co/country-iso)
 timedatectl set-ntp true
@@ -30,6 +11,7 @@ setfont ter-v22b
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 pacman -S --noconfirm reflector rsync grub
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+
 echo -ne "
 -------------------------------------------------------------------------
                     Setting up $iso mirrors for faster downloads
@@ -39,13 +21,13 @@ reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
 mkdir /mnt &>/dev/null # Hiding error message if any
 echo -ne "
 -------------------------------------------------------------------------
-                    Installing Prerequisites
+                    Instalando Prerequisitos
 -------------------------------------------------------------------------
 "
 pacman -S --noconfirm gptfdisk btrfs-progs
 echo -ne "
 -------------------------------------------------------------------------
-                    Formating Disk
+                    Formateando Disco
 -------------------------------------------------------------------------
 "
 # disk prep
@@ -62,7 +44,7 @@ fi
 # make filesystems
 echo -ne "
 -------------------------------------------------------------------------
-                    Creating Filesystems
+                    Creando Filesystems
 -------------------------------------------------------------------------
 "
 createsubvolumes () {
@@ -140,7 +122,7 @@ if ! grep -qs '/mnt' /proc/mounts; then
 fi
 echo -ne "
 -------------------------------------------------------------------------
-                    Arch Install on Main Drive
+                    Instalacion de ARCH LINUX
 -------------------------------------------------------------------------
 "
 pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
@@ -149,7 +131,7 @@ cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 echo -ne "
 -------------------------------------------------------------------------
-                    GRUB BIOS Bootloader Install & Check
+              Instalacion & checkeo de GRUB Bootloader
 -------------------------------------------------------------------------
 "
 if [[ ! -d "/sys/firmware/efi" ]]; then
@@ -157,7 +139,7 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
 fi
 echo -ne "
 -------------------------------------------------------------------------
-                    Checking for low memory systems <8G
+                 Adiciónal para sistemas de baja memoria
 -------------------------------------------------------------------------
 "
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')

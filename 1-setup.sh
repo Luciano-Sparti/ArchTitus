@@ -1,28 +1,16 @@
 #!/usr/bin/env bash
-echo -ne "
--------------------------------------------------------------------------
-   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
--------------------------------------------------------------------------
-                    Automated Arch Linux Installer
-                        SCRIPTHOME: ArchTitus
--------------------------------------------------------------------------
-"
+
 source /root/ArchTitus/setup.conf
 echo -ne "
 -------------------------------------------------------------------------
-                    Network Setup 
+                    Seteo de Network 
 -------------------------------------------------------------------------
 "
 pacman -S networkmanager dhclient --noconfirm --needed
 systemctl enable --now NetworkManager
 echo -ne "
 -------------------------------------------------------------------------
-                    Setting up mirrors for optimal download 
+           Manejo de mirrors para downloads optimos
 -------------------------------------------------------------------------
 "
 pacman -S --noconfirm pacman-contrib curl
@@ -30,28 +18,18 @@ pacman -S --noconfirm reflector rsync grub btrfs-progs arch-install-scripts git
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
 nc=$(grep -c ^processor /proc/cpuinfo)
-echo -ne "
--------------------------------------------------------------------------
-                    You have " $nc" cores. And
-			changing the makeflags for "$nc" cores. Aswell as
-				changing the compression settings.
--------------------------------------------------------------------------
-"
+
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTALMEM -gt 8000000 ]]; then
 sed -i "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$nc\"/g" /etc/makepkg.conf
 sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
 fi
-echo -ne "
--------------------------------------------------------------------------
-                    Setup Language to US and set locale  
--------------------------------------------------------------------------
-"
-sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+
+sed -i 's/^#es_AR.UTF-8 UTF-8/es_AR.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 timedatectl --no-ask-password set-timezone ${TIMEZONE}
 timedatectl --no-ask-password set-ntp 1
-localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
+localectl --no-ask-password set-locale LANG="es_AR.UTF-8" LC_TIME="es_AR.UTF-8"
 
 # Set keymaps
 localectl --no-ask-password set-keymap ${KEYMAP}
@@ -68,7 +46,7 @@ pacman -Sy --noconfirm
 
 echo -ne "
 -------------------------------------------------------------------------
-                    Installing Base System  
+                    Instalando Sistema Base  
 -------------------------------------------------------------------------
 "
 cat /root/ArchTitus/pkg-files/pacman-pkgs.txt | while read line 
@@ -78,7 +56,7 @@ do
 done
 echo -ne "
 -------------------------------------------------------------------------
-                    Installing Microcode
+                    Instalando Microcode
 -------------------------------------------------------------------------
 "
 # determine processor type and install microcode
@@ -95,7 +73,7 @@ fi
 
 echo -ne "
 -------------------------------------------------------------------------
-                    Installing Graphics Drivers
+                    Instalando Drivers de Video
 -------------------------------------------------------------------------
 "
 # Graphics Drivers find and install
@@ -110,7 +88,8 @@ elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
 elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
     pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa --needed --noconfirm
 fi
-#SETUP IS WRONG THIS IS RUN
+
+#Si esta mal, se corre el siguiente código
 if ! source /root/ArchTitus/setup.conf; then
 	# Loop through user input until the user gives a valid username
 	while true
@@ -124,6 +103,7 @@ if ! source /root/ArchTitus/setup.conf; then
 		fi 
 		echo "Incorrect username."
 	done 
+
 # convert name to lowercase before saving to setup.conf
 echo "username=${username,,}" >> ${HOME}/ArchTitus/setup.conf
 
@@ -152,7 +132,7 @@ echo "password=${password,,}" >> ${HOME}/ArchTitus/setup.conf
 fi
 echo -ne "
 -------------------------------------------------------------------------
-                    Adding User
+                    Añadiendo un Usuario
 -------------------------------------------------------------------------
 "
 if [ $(whoami) = "root"  ]; then

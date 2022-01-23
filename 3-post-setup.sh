@@ -1,20 +1,4 @@
 #!/usr/bin/env bash
-echo -ne "
--------------------------------------------------------------------------
-   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
--------------------------------------------------------------------------
-                    Automated Arch Linux Installer
-                        SCRIPTHOME: ArchTitus
--------------------------------------------------------------------------
-
-Final Setup and Configurations
-GRUB EFI Bootloader Install & Check
-"
 source /root/ArchTitus/setup.conf
 genfstab -U / >> /etc/fstab
 if [[ -d "/sys/firmware/efi" ]]; then
@@ -25,7 +9,7 @@ if [[ "${FS}" == "luks" ]]; then
 sed -i "s%GRUB_CMDLINE_LINUX_DEFAULT=\"%GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=${encryped_partition_uuid}:ROOT root=/dev/mapper/ROOT %g" /etc/default/grub
 fi
 
-echo -e "Installing CyberRe Grub theme..."
+echo -e "Instalando theme de GRUB: CyberRe"
 THEME_DIR="/boot/grub/themes"
 THEME_NAME=CyberRe
 echo -e "Creating the theme directory..."
@@ -44,13 +28,13 @@ echo -e "All set!"
 
 echo -ne "
 -------------------------------------------------------------------------
-                    Enabling Login Display Manager
+                    Activando Display Manager
 -------------------------------------------------------------------------
 "
 systemctl enable sddm.service
 echo -ne "
 -------------------------------------------------------------------------
-                    Setting up SDDM Theme
+                    Configurando theme de SDDM
 -------------------------------------------------------------------------
 "
 cat <<EOF > /etc/sddm.conf
@@ -60,7 +44,7 @@ EOF
 
 echo -ne "
 -------------------------------------------------------------------------
-                    Enabling Essential Services
+                    Activando servicios esenciales
 -------------------------------------------------------------------------
 "
 systemctl enable cups.service
@@ -72,7 +56,7 @@ systemctl enable NetworkManager.service
 systemctl enable bluetooth
 echo -ne "
 -------------------------------------------------------------------------
-                    Cleaning 
+                    Limpiando
 -------------------------------------------------------------------------
 "
 # Remove no password sudo rights

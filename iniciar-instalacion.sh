@@ -12,9 +12,9 @@ echo -ne "
   ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 -------------------------------------------------------------------------
-                    Automated Arch Linux Installer
+                 Instalador de Arch Linux Automatizado
 -------------------------------------------------------------------------
-                Scripts are in directory named ArchTitus
+                     Scripts basados en ArchTitus
 "
     bash startup.sh
     source $SCRIPT_DIR/setup.conf
@@ -32,7 +32,7 @@ echo -ne "
   ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
 -------------------------------------------------------------------------
-                    Automated Arch Linux Installer
+                  Instalador de Arch Linux Automatizado
 -------------------------------------------------------------------------
-                Done - Please Eject Install Media and Reboot
+             Listo! - Por favor, ejectar el USB y reiniciar
 "
